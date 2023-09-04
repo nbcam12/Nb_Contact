@@ -1,4 +1,4 @@
-package com.example.contact_nb12.fragments
+package com.example.contact_nb12.list
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

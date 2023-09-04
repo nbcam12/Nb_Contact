@@ -1,8 +1,7 @@
-package com.example.contact_nb12.activities
+package com.example.contact_nb12.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.contact_nb12.R
 import com.example.contact_nb12.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
