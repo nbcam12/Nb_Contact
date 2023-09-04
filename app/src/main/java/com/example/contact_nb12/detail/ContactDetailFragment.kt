@@ -14,5 +14,5 @@ class ContactDetailFragment : Fragment() {
         return view
     }
 
-
+   // 이슈 테스트
 }
