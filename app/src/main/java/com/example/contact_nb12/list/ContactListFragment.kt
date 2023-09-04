@@ -12,4 +12,5 @@ class ContactListFragment : Fragment() {
         val view =  inflater.inflate(R.layout.fragment_contact_list, container, false)
         return view
     }
+    //test
 }
