@@ -1,3 +1,8 @@
 package com.example.contact_nb12.main
 
-data class mainTabs()
+import androidx.fragment.app.Fragment
+
+data class TabModel(
+    val fragment: Fragment,
+    val titleRes: Int,
+)
