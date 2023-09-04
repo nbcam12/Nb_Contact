@@ -1,6 +1,7 @@
 package com.example.contact_nb12.main
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.contact_nb12.databinding.MainActivityBinding
@@ -28,7 +29,13 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         mainFabAdd.setOnClickListener {
-            val intent = Intent(this@MainActivity, AddContactDialogFragment::class.java)
+            // FragmentDialog 구현후 호출
+        }
+
+        // NumberPad 이동
+        mainFabNumberpad.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.setData(Uri.parse("tel:"))
             startActivity(intent)
         }
     }
