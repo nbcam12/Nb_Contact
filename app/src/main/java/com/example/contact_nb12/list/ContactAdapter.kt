@@ -41,26 +41,27 @@ class ContactAdapter(val Items: MutableList<Contact>) : RecyclerView.Adapter<Rec
             itemClick?.onClick(it, position)
         }
 
-            val contact = Items[position]
-            when (holder) {
-                is ContactBookmarkViewHolder -> {
-                    holder.bind(contact)
-                    holder.itemView.setOnClickListener {
-                        // 아이템 클릭 이벤트 처리
-                        contact.isMark = !contact.isMark
-                        notifyItemChanged(position)
-                    }
+        val contact = Items[position]
+        when (holder) {
+            is ContactBookmarkViewHolder -> {
+                holder.bind(contact)
+                holder.binding.BookmarkBtn.setOnClickListener {
+                    // BookmarkBtn을 눌렀을 때 Contact 객체의 isMark 토글
+                    contact.isMark = !contact.isMark
+                    notifyItemChanged(position)
                 }
-                is ContactNormalViewHolder -> {
-                    holder.bind(contact)
-                    holder.itemView.setOnClickListener {
-                        // 아이템 클릭 이벤트 처리
-                        contact.isMark = !contact.isMark
-                        notifyItemChanged(position)
-                    }
+            }
+            is ContactNormalViewHolder -> {
+                holder.bind(contact)
+                holder.binding.BookmarkBtn.setOnClickListener {
+                    // BookmarkBtn을 눌렀을 때 Contact 객체의 isMark 토글
+                    contact.isMark = !contact.isMark
+                    notifyItemChanged(position)
                 }
             }
         }
+    }
+
 
     override fun getItemCount(): Int {
         return Items.size
@@ -81,7 +82,7 @@ class ContactAdapter(val Items: MutableList<Contact>) : RecyclerView.Adapter<Rec
         }
     }
 
-    inner class ContactNormalViewHolder(private val binding: ItemViewtypeNormalBinding) :
+    inner class ContactNormalViewHolder(val binding: ItemViewtypeNormalBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(contact: Contact) {
