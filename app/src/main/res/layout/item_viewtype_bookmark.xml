@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/list_img"
+        android:id="@+id/listImg"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/list_name"
+        android:id="@+id/listName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
@@ -28,22 +28,22 @@
         android:text="이름"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/list_img"
+        app:layout_constraintStart_toEndOf="@+id/listImg"
         app:layout_constraintTop_toTopOf="parent"
         tools:textColor="#000000" />
 
     <TextView
-        android:id="@+id/list_number"
+        android:id="@+id/listNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
         android:text="010-1234-5678"
         android:textColor="#5E5959"
-        app:layout_constraintStart_toEndOf="@+id/list_img"
-        app:layout_constraintTop_toBottomOf="@+id/list_name" />
+        app:layout_constraintStart_toEndOf="@+id/listImg"
+        app:layout_constraintTop_toBottomOf="@+id/listName" />
 
     <ImageView
-        android:id="@+id/list_bookmark"
+        android:id="@+id/BookmarkBtn"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginTop="24dp"
@@ -53,13 +53,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/list_call"
+        android:id="@+id/callBtn"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="3dp"
         android:src="@drawable/call"
-        app:layout_constraintEnd_toStartOf="@+id/list_bookmark"
+        app:layout_constraintEnd_toStartOf="@+id/BookmarkBtn"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
