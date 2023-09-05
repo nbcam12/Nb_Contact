@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import com.example.contact_nb12.R
 import com.example.contact_nb12.databinding.MainActivityBinding
 import com.example.contact_nb12.mypage.AddContactDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
@@ -42,7 +43,9 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         mainFabAdd.setOnClickListener {
-            // FragmentDialog 구현후 호출
+          AddContactDialogFragment().show(
+              supportFragmentManager,"AddContactDialogFragment"
+          )
         }
 
         // NumberPad 이동
