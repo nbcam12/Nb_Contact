@@ -1,14 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mypage_img_back"
     tools:context=".mypage.AddContactDialogFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       >
+
+       <EditText
+           android:id="@+id/mypage_name_edittext"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="104dp"
+           android:autofillHints="전화번호를 입력해주세요."
+           android:ems="10"
+           android:hint="전화번호를 입력해주세요."
+           android:inputType="text"
+           android:text=""
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintHorizontal_bias="0.497"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent" />
+
+       <EditText
+           android:id="@+id/mypage_mbti_edittext"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="28dp"
+           android:autofillHints="생년월일을 입력해주세요"
+           android:ems="10"
+           android:hint="생년월일을 입력해주세요"
+           android:inputType="text"
+           android:text=""
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintHorizontal_bias="0.502"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/mypage_status_edittext" />
+
+       <EditText
+           android:id="@+id/mypage_status_edittext"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="32dp"
+           android:autofillHints="이메일을 입력해주세요"
+           android:ems="10"
+           android:hint="이메일을 입력해주세요"
+           android:inputType="text"
+           android:text=""
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintHorizontal_bias="0.502"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/mypage_name_edittext" />
+
+
+       <EditText
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:autofillHints="별명을 입력해주세요"
+           android:ems="10"
+           android:hint="별명을 입력해주세요"
+           android:inputType="text"
+           android:text=""
+           app:layout_constraintBottom_toTopOf="@+id/mypage_confirm_btn"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintHorizontal_bias="0.502"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/mypage_mbti_edittext"
+           app:layout_constraintVertical_bias="0.367" />
+
+       <Button
+           android:id="@+id/mypage_confirm_btn"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="116dp"
+
+           android:layout_marginEnd="100dp"
+           android:text="수정"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/mypage_mbti_edittext"
+           app:layout_constraintVertical_bias="0.111" />
+
+       <Button
+           android:id="@+id/mypage_close_btn"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginEnd="20dp"
+
+
+           android:text="취소"
+           app:layout_constraintBottom_toBottomOf="@+id/mypage_confirm_btn"
+           app:layout_constraintEnd_toStartOf="@+id/mypage_confirm_btn"
+           app:layout_constraintTop_toTopOf="@+id/mypage_confirm_btn" />
+
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
