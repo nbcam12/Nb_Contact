@@ -58,6 +58,7 @@ class MyPageFragment : Fragment() {
 
         editButton?.setOnClickListener{
             val dialogFragment = AddContactDialogFragment()
+            dialogFragment.setOriginalInfo("010-1234-5678", "1990-01-01", "example@email.com", "기존별명")
             dialogFragment.setTargetFragment(this@MyPageFragment, REQUEST_CODE_ADD_CONTACT)
             dialogFragment.show(parentFragmentManager, "AddContactDialogFragment")
         }
