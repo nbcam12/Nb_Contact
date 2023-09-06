@@ -12,12 +12,13 @@
 
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/profile_ad"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@drawable/mypage_img_back"
             android:src="@drawable/default_profile"
             android:clipToOutline="true"
+            android:scaleType="centerInside"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +28,7 @@
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/profile_ad"
             tools:layout_editor_absoluteX="0dp">
 
             <TextView
@@ -38,7 +39,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="30dp"
                 android:gravity="center"
-                android:text="닉네임"
+                android:text="나는 외국인"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +50,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:gravity="center"
-                android:text="이름"
+                android:text="Sarah Smith"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
