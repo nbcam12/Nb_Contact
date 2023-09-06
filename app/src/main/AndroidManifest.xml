@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-<!--   전화 권한-->
+    <!-- 전화 권한 -->
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
@@ -11,6 +11,8 @@
     <!-- 저장 파일에 접근하기 위한 퍼미션 설정 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 연락처 접근 권한 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
