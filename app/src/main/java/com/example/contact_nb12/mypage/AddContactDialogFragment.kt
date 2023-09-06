@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -17,13 +18,15 @@ import com.example.contact_nb12.R
 import com.example.contact_nb12.databinding.FragmentAddContactDialogBinding
 import com.example.contact_nb12.mypage.MyPageFragment.Companion.REQUEST_CODE_ADD_CONTACT
 
-class AddContactDialogFragment : DialogFragment() {
+class AddContactDialogFragment() : DialogFragment() {
 
     private lateinit var binding: FragmentAddContactDialogBinding
     private var originalPhoneNum: String = ""
     private var originalBirth: String = ""
     private var originalEmail: String = ""
     private var originalNickname: String = ""
+    private var selectedImageUri: Uri? = null
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -33,12 +36,15 @@ class AddContactDialogFragment : DialogFragment() {
     ): View? {
         binding = FragmentAddContactDialogBinding.inflate(inflater, container, false)
 
+
         binding.mypageNameEdittext.setText(originalPhoneNum)
         binding.mypageBirthEdittext.setText(originalBirth)
         binding.mypageEmailEdittext.setText(originalEmail)
         binding.mypageNickName.setText(originalNickname)
 
-
+        selectedImageUri?.let { imageUri ->
+            binding.diaImg.setImageURI(imageUri)
+        }
 
         binding.mypageSaveBtn.setOnClickListener {
             Log.d("AddContactDialogFragment", "Save button clicked")
@@ -73,4 +79,8 @@ class AddContactDialogFragment : DialogFragment() {
         originalEmail = email
         originalNickname = nickname
     }
+    fun setImageUri(imageUri: Uri) {
+        selectedImageUri = imageUri
+    }
+
 }
