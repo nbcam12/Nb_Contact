@@ -1,10 +1,10 @@
 package com.example.contact_nb12.main
 
+import ContactListFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.contact_nb12.R
-import com.example.contact_nb12.list.ContactListFragment
 import com.example.contact_nb12.mypage.MyPageFragment
 
 class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
