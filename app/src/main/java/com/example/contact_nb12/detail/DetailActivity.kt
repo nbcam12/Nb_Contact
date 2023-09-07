@@ -15,6 +15,7 @@ import com.example.contact_nb12.databinding.MainActivityBinding
 import com.example.contact_nb12.databinding.ActivityDetailBinding
 import com.example.contact_nb12.list.DataManager
 import com.example.contact_nb12.models.Contact
+import com.example.contact_nb12.mypage.AddContactDialogFragment
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
@@ -46,6 +47,7 @@ class DetailActivity : AppCompatActivity() {
         supportFragmentManager!!.beginTransaction()
             .replace(R.id.fragmentContainerView, fragment)
             .commit()
+
 
     }
 
