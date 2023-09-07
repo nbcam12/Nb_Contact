@@ -69,7 +69,8 @@ class MainActivity : AppCompatActivity() {
                 "", // 초기 전화번호 값
                 "", // 초기 생일 값
                 "", // 초기 이메일 값
-                ""  // 초기 닉네임 값
+                "",// 초기 닉네임 값
+                R.drawable.dialog_profile//초기 사진 값
             ).show(
                 supportFragmentManager, "AddContactDialogFragment"
             )

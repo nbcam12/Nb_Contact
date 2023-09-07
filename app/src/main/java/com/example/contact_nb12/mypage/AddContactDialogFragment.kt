@@ -20,12 +20,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.example.contact_nb12.R
 import com.example.contact_nb12.databinding.FragmentAddContactDialogBinding
+import com.example.contact_nb12.detail.ContactDetailFragment
 import com.example.contact_nb12.mypage.MyPageFragment.Companion.REQUEST_CODE_ADD_CONTACT
 
 class AddContactDialogFragment(private var originalPhoneNum: String,
                                private var originalBirth: String,
                                private var originalEmail: String,
-                               private var originalNickname: String) : DialogFragment() {
+                               private var originalNickname: String,
+                               private var originImage:Int) : DialogFragment() {
     private val PICK_IMAGE_REQUEST = 1
 
     private lateinit var binding: FragmentAddContactDialogBinding
@@ -49,6 +51,7 @@ class AddContactDialogFragment(private var originalPhoneNum: String,
         binding.mypageBirthEdittext.setText(originalBirth)
         binding.mypageEmailEdittext.setText(originalEmail)
         binding.mypageNickName.setText(originalNickname)
+        binding.diaImg.setImageResource(originImage)
 
         selectedImageUri?.let { imageUri ->
             binding.diaImg.setImageURI(imageUri)
@@ -61,11 +64,13 @@ class AddContactDialogFragment(private var originalPhoneNum: String,
             val newEmail = binding.mypageEmailEdittext.text.toString()
             val newNickname = binding.mypageNickName.text.toString()
 
+
             val bundle = Bundle()
             bundle.putString("newPhoneNumber", newPhoneNum)
             bundle.putString("newBirthday", newbirth)
             bundle.putString("newEmail", newEmail)
             bundle.putString("newNickName", newNickname)
+
 
             selectedImageUri?.let { imageUri ->
                 bundle.putParcelable("newImageUri", imageUri) // 이미지 URI를 번들에 추가
