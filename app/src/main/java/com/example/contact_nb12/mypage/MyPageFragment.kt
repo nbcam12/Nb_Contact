@@ -31,9 +31,9 @@ class MyPageFragment : Fragment() {
     ): View? {
         binding = FragmentMyPageBinding.inflate(inflater, container, false)
 
-        binding.profileAd.setOnClickListener {
+        /*binding.profileAd.setOnClickListener {
             openGallery()
-        }
+        }*/
 
         val editButton = mainActivity?.getEditButton()
         editButton?.setOnClickListener {
@@ -47,7 +47,7 @@ class MyPageFragment : Fragment() {
         return binding.root
     }
 
-    private fun openGallery() {
+/*    private fun openGallery() {
         val permission = android.Manifest.permission.READ_EXTERNAL_STORAGE
         if (ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED) {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -55,9 +55,9 @@ class MyPageFragment : Fragment() {
         } else {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission), 0)
         }
-    }
+    }*/
 
-    override fun onRequestPermissionsResult(
+  /*  override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray
@@ -69,7 +69,7 @@ class MyPageFragment : Fragment() {
                 // 권한이 거부되면 사용자에게 설명을 보여줄 수 있습니다.
             }
         }
-    }
+    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -92,6 +92,12 @@ class MyPageFragment : Fragment() {
                 binding.EmailText.text = newEmail
                 binding.birthText.text = newBirthday
                 binding.nickNamText.text = newNickname
+
+                val newImageUri = data?.extras?.getParcelable<Uri>("newImageUri")
+                newImageUri?.let { imageUri ->
+                    selectedImageUri = imageUri
+                    binding.profileAd.setImageURI(imageUri)
+                }
             }
         }
     }
