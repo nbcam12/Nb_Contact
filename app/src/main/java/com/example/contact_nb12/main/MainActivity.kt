@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
     private val requestContactPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if(isGranted) {
+            if (isGranted) {
                 initTabs(true)
             } else {
                 initTabs(false)
@@ -79,17 +79,42 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 디바이스 주소록 가져오기
-    private fun getContacts(): MutableList<Contact>{
-        val contacts = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null)
+    private fun getContacts(): MutableList<Contact> {
+        val contacts = contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            null,
+            null,
+            null,
+            null
+        )
         val list = mutableListOf<Contact>()
 
-        contacts?.let{
-            while(it.moveToNext()) {
-//                val id = contacts.getInt(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.))
+        contacts?.let {
+            if (contacts.count > 0) {
+                while (it.moveToNext()) {
+                    val name =
+                        contacts.getString(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+                    val phoneNumber =
+                        contacts.getInt(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                    val image =
+                        contacts.getInt(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.PHOTO_ID))
+                    val email =
+                        contacts.getString(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.ADDRESS))
+
+                    val model = Contact(
+                        Img = image,
+                        name = name,
+                        phonenumber = phoneNumber.toString(),
+                        email = email,
+                        birth = "",
+                        nickname = "",
+                    )
+                    list.add(model)
+                }
             }
         }
 
-        return mutableListOf()
+        return list
     }
 
     private fun initTabs(isGranted: Boolean) {
