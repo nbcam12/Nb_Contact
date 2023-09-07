@@ -10,14 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/list_img"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/rounded"
-            android:clipToOutline="true"
             android:scaleType="centerCrop"
             android:src="@drawable/placeholder"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
             android:layout_marginTop="20dp"
-            android:text="이름"
+            android:text="Sarah Smith"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/list_img"
@@ -41,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
-            android:text="010-1234-5678"
+            android:text="010-1224-3678"
             android:textColor="#5E5959"
             app:layout_constraintStart_toEndOf="@+id/list_img"
             app:layout_constraintTop_toBottomOf="@+id/list_name" />
