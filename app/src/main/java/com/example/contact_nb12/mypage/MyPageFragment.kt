@@ -37,8 +37,12 @@ class MyPageFragment : Fragment() {
 
         val editButton = mainActivity?.getEditButton()
         editButton?.setOnClickListener {
-            val dialogFragment = AddContactDialogFragment()
-            dialogFragment.setOriginalInfo("010-1234-5678", "1990-01-01", "example@email.com", "기존별명")
+            val dialogFragment = AddContactDialogFragment(
+                binding.telText.text.toString(),
+                binding.birthText.text.toString(),
+                binding.EmailText.text.toString(),
+                binding.nickNamText.text.toString())
+
             selectedImageUri?.let { it1 -> dialogFragment.setImageUri(it1) } // 이미지 URI를 다이얼로그에 전달
             dialogFragment.setTargetFragment(this@MyPageFragment, REQUEST_CODE_ADD_CONTACT)
             dialogFragment.show(parentFragmentManager, "AddContactDialogFragment")

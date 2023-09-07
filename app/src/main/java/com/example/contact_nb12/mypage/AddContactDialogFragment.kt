@@ -22,14 +22,14 @@ import com.example.contact_nb12.R
 import com.example.contact_nb12.databinding.FragmentAddContactDialogBinding
 import com.example.contact_nb12.mypage.MyPageFragment.Companion.REQUEST_CODE_ADD_CONTACT
 
-class AddContactDialogFragment() : DialogFragment() {
+class AddContactDialogFragment(private var originalPhoneNum: String,
+                               private var originalBirth: String,
+                               private var originalEmail: String,
+                               private var originalNickname: String) : DialogFragment() {
     private val PICK_IMAGE_REQUEST = 1
 
     private lateinit var binding: FragmentAddContactDialogBinding
-    private var originalPhoneNum: String = ""
-    private var originalBirth: String = ""
-    private var originalEmail: String = ""
-    private var originalNickname: String = ""
+
     private var selectedImageUri: Uri? = null
 
 
@@ -45,9 +45,6 @@ class AddContactDialogFragment() : DialogFragment() {
         binding.diaImg.setOnClickListener {
             openGallery()
         }
-
-
-
         binding.mypageNameEdittext.setText(originalPhoneNum)
         binding.mypageBirthEdittext.setText(originalBirth)
         binding.mypageEmailEdittext.setText(originalEmail)
