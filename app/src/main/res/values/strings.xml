@@ -5,4 +5,5 @@
 
     <string name="tab_contactlist">연락처</string>
     <string name="tab_mypage">내정보</string>
+    <string name="permission_contact_denied_msg">기기 연락처를 보시려면 연락처 권한을 허용해주시기 바랍니다.</string>
 </resources>

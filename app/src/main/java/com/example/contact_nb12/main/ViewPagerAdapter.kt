@@ -10,15 +10,19 @@ import com.example.contact_nb12.mypage.MyPageFragment
 class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
     private val list = ArrayList<TabModel>()
 
-    // tab 추가
-    fun addTabItem(item: TabModel) {
-        val res = list.filter { it.fragment== item.fragment}.size
-        if(res > 0) {
-            list.remove(item)
-            list.add(item)
-        } else {
-            list.add(item)
-        }
+    init {
+        list.add(
+            TabModel(
+                ContactListFragment.newInstacne(),
+                R.string.tab_contactlist
+            )
+        )
+        list.add(
+            TabModel(
+                MyPageFragment(),
+                R.string.tab_mypage
+            )
+        )
     }
 
     // 타이틀 가져오기
