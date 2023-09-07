@@ -1,127 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#6FFFFFFF"
     tools:context=".mypage.AddContactDialogFragment">
 
-   <androidx.constraintlayout.widget.ConstraintLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       >
-
-
-       <de.hdodenhof.circleimageview.CircleImageView
-           android:id="@+id/dia_img"
-           android:layout_width="150dp"
-           android:layout_height="131dp"
-           android:layout_marginTop="50dp"
-           android:src="@drawable/dialog_profile"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.498"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toTopOf="parent" />
-
-       <EditText
-           android:id="@+id/mypage_name_edittext"
-           android:layout_width="wrap_content"
-           android:layout_height="47dp"
-           android:layout_marginStart="40dp"
-           android:layout_marginTop="32dp"
-           android:layout_marginEnd="40dp"
-           android:autofillHints="전화번호를 입력해주세요."
-           android:background="@drawable/dialog_border"
-           android:ems="10"
-           android:hint="전화번호를 입력해주세요."
-           android:inputType="text"
-           android:text=""
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.492"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toBottomOf="@+id/dia_img" />
-
-       <EditText
-           android:id="@+id/mypage_birth_edittext"
-           android:layout_width="wrap_content"
-           android:layout_height="47dp"
-           android:layout_marginStart="40dp"
-           android:layout_marginTop="16dp"
-           android:layout_marginEnd="40dp"
-           android:autofillHints="생년월일을 입력해주세요"
-           android:background="@drawable/dialog_border"
-           android:ems="10"
-           android:hint="생년월일을 입력해주세요"
-           android:inputType="text"
-           android:text=""
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.492"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toBottomOf="@+id/mypage_name_edittext" />
-
-       <EditText
-           android:id="@+id/mypage_email_edittext"
-           android:layout_width="wrap_content"
-           android:layout_height="47dp"
-           android:layout_marginStart="40dp"
-           android:layout_marginTop="16dp"
-           android:layout_marginEnd="40dp"
-           android:autofillHints="이메일을 입력해주세요"
-           android:background="@drawable/dialog_border"
-           android:ems="10"
-           android:hint="이메일을 입력해주세요"
-           android:inputType="text"
-           android:text=""
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.492"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toBottomOf="@+id/mypage_birth_edittext" />
-
-       <EditText
-           android:id="@+id/mypage_nick_name"
-           android:layout_width="wrap_content"
-           android:layout_height="47dp"
-           android:layout_marginStart="40dp"
-           android:layout_marginTop="16dp"
-           android:layout_marginEnd="40dp"
-           android:autofillHints="별명을 입력해주세요"
-           android:background="@drawable/dialog_border"
-           android:ems="10"
-           android:hint="별명을 입력해주세요"
-           android:inputType="text"
-           android:text=""
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.492"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toBottomOf="@+id/mypage_email_edittext" />
-
-       <Button
-           android:id="@+id/mypage_cancel_btn"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_marginStart="100dp"
-           android:backgroundTint="#FF0000"
-           android:text="취소"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.699"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toTopOf="@+id/mypage_save_btn" />
-
-       <Button
-           android:id="@+id/mypage_save_btn"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="12dp"
-           android:layout_marginEnd="100dp"
-           android:backgroundTint="#51924F"
-           android:text="저장"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.291"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toBottomOf="@+id/mypage_nick_name" />
-
-
-   </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>
