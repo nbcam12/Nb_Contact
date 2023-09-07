@@ -65,7 +65,12 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         mainFabAdd.setOnClickListener {
-            AddContactDialogFragment().show(
+            AddContactDialogFragment(
+                "", // 초기 전화번호 값
+                "", // 초기 생일 값
+                "", // 초기 이메일 값
+                ""  // 초기 닉네임 값
+            ).show(
                 supportFragmentManager, "AddContactDialogFragment"
             )
         }
