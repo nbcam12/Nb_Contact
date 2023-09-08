@@ -20,6 +20,7 @@ import com.example.contact_nb12.databinding.FragmentContactAddDialogBinding
 import com.example.contact_nb12.models.Contact
 import com.example.contact_nb12.mypage.MyPageFragment.Companion.REQUEST_CODE_ADD_CONTACT
 
+
 class ContactAddDialog : DialogFragment() {
     private lateinit var selectedImageView: ImageView
     private lateinit var binding: FragmentContactAddDialogBinding
@@ -35,6 +36,7 @@ class ContactAddDialog : DialogFragment() {
        binding = FragmentContactAddDialogBinding.inflate(inflater,container,false)
         selectedImageView = binding.addImg
         val saveButton = binding.addSaveBtn
+        selectedImageUri = null
         saveButton.setOnClickListener {
             val name = binding.addName.text.toString()
             val phoneNumber = binding.addEditTel.text.toString()
@@ -50,15 +52,16 @@ class ContactAddDialog : DialogFragment() {
             bundle.putString("newnick",newNickname)
 
             selectedImageUri?.let { imageUri ->
-                bundle.putParcelable("newImageUri", imageUri)
+                bundle.putString("newImageUri", imageUri.toString())
             }
+
             targetFragment?.onActivityResult(
                 REQUEST_CODE_ADD_CONTACT,
                 Activity.RESULT_OK,
                 Intent().putExtras(bundle)
             )
             val newContact = Contact(
-                Img = R.drawable.default_profile, // 이미지 리소스 또는 URI를 설정
+                Img = selectedImageUri,
                 name = name,
                 phonenumber = phoneNumber,
                 email =  email,
@@ -98,8 +101,16 @@ class ContactAddDialog : DialogFragment() {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
             data?.data?.let { imageUri ->
                 selectedImageUri = imageUri
-                binding.addImg.setImageURI(imageUri)
+                binding.addImg.setImageURI(imageUri.toString())
             }
+        }
+    }
+    private fun ImageView.setImageURI(newImageUriString: String?) {
+        if(newImageUriString != null){
+            val uri = Uri.parse(newImageUriString)
+            setImageURI(uri)
+        }else{
+            setImageResource(R.drawable.default_profile)
         }
     }
 }

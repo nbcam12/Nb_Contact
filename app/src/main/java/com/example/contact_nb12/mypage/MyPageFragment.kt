@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.example.contact_nb12.R
 import com.example.contact_nb12.databinding.FragmentMyPageBinding
 import com.example.contact_nb12.main.MainActivity
@@ -90,6 +91,8 @@ class MyPageFragment : Fragment() {
                 val newBirthday = it.getStringExtra("newBirthday")
                 val newNickname = it.getStringExtra("newNickName")
 
+
+
                 // 업데이트된 데이터를 UI에 반영
                 binding.centerName.text = newName
                 binding.telText.text = newPhoneNumber
@@ -101,7 +104,7 @@ class MyPageFragment : Fragment() {
                 val newImageUri = data?.extras?.getParcelable<Uri>("newImageUri")
                 newImageUri?.let { imageUri ->
                     selectedImageUri = imageUri
-                    binding.profileAd.setImageURI(imageUri)
+                    binding.profileAd.setImageURI(imageUri.toString())
                 }
             }
         }
@@ -128,5 +131,14 @@ class MyPageFragment : Fragment() {
 
     companion object {
         const val REQUEST_CODE_ADD_CONTACT = 123
+    }
+}
+
+private fun ImageView.setImageURI(newImageUriString: String?) {
+    if(newImageUriString != null){
+        val uri = Uri.parse(newImageUriString)
+        setImageURI(uri)
+    }else{
+        setImageResource(R.drawable.default_profile)
     }
 }

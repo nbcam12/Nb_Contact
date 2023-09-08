@@ -6,9 +6,9 @@ import com.example.contact_nb12.models.Contact
 object DataManager {
     private val contacts = mutableListOf<Contact>()
 
-    init {
+/*    init {
         // 초기 더미 데이터 추가
-        contacts.add(Contact(R.drawable.sample1,"John Smith", "010-1234-5678", "John@example.com", "1990-01-01", "J",false))
+        contacts.add(Contact(R.drawable.sample1,"John Smith", "010-1234-5678", "John@example.com", "1990-01-01", "J",R.drawable.default_profile,false))
         contacts.add(Contact(R.drawable.sample2,"Emma Johnson", "010-9876-5432", "Emma@example.com", "1995-03-15", "E", false))
         contacts.add(Contact(R.drawable.sample3,"Michael Brown", "010-9876-5432", "Michael@example.com", "1997-02-17", "M", false))
         contacts.add(Contact(R.drawable.sample4,"Olivia Davis", "010-9876-5432", "Olivia@example.com", "1998-03-25", "O", false))
@@ -23,14 +23,18 @@ object DataManager {
         contacts.add(Contact(R.drawable.sample13,"Patrick Peterson", "010-9876-5432", "Patrick@example.com", "1995-12-29", "P", false))
         contacts.add(Contact(R.drawable.sample14,"Laura Lopez", "010-9876-5432", "Laura@example.com", "1995-06-14", "L", false))
         contacts.add(Contact(R.drawable.sample15,"Henry Harrison", "010-9876-5432", "Henry@example.com", "1995-07-14", "H", false))
-    }
+    }*/
 
     fun getContacts(): List<Contact> {
         return contacts
     }
 
+
     fun addContact(contact: Contact) {
+        // 이미지 URI를 Contact 객체에 설정
+
         contacts.add(contact)
+
     }
 
 }

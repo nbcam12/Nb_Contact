@@ -15,11 +15,12 @@ import com.example.contact_nb12.databinding.ItemViewtypeNormalBinding
 import com.example.contact_nb12.models.Contact
 import java.util.Collections
 
-class ContactAdapter(private val Items: MutableList<Contact>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+class ContactAdapter(private val Items: MutableList<Contact>,private var selectedImageUri: Uri?) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     ItemTouchHelperCallback.OnItemMoveListener {
 
     private lateinit var dragListener: OnStartDragListener
     private lateinit var context: Context
+
 
     companion object {
         private const val VIEW_TYPE_BOOKMARK = 0
@@ -84,6 +85,7 @@ class ContactAdapter(private val Items: MutableList<Contact>) : RecyclerView.Ada
                 }
             }
         }
+
     }
 
     override fun getItemCount(): Int {
@@ -133,7 +135,11 @@ class ContactAdapter(private val Items: MutableList<Contact>) : RecyclerView.Ada
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(contact: Contact) {
-            binding.listImg.setImageResource(contact.Img)
+            if (contact.Img != null) {
+                binding.listImg.setImageURI(contact.Img) // 이미지 Uri 사용
+            } else {
+                binding.listImg.setImageResource(R.drawable.default_profile) // 기본 이미지 리소스 사용
+            }
             binding.listName.text = contact.name
             binding.listNumber.text = contact.phonenumber
             binding.BookmarkBtn.setImageResource(R.drawable.full_star)
@@ -144,7 +150,11 @@ class ContactAdapter(private val Items: MutableList<Contact>) : RecyclerView.Ada
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(contact: Contact) {
-            binding.listImg.setImageResource(contact.Img)
+            if (contact.Img != null) {
+                binding.listImg.setImageURI(contact.Img) // 이미지 Uri 사용
+            } else {
+                binding.listImg.setImageResource(R.drawable.default_profile) // 기본 이미지 리소스 사용
+            }
             binding.listName.text = contact.name
             binding.listNumber.text = contact.phonenumber
             binding.BookmarkBtn.setImageResource(R.drawable.star)

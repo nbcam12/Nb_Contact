@@ -1,5 +1,4 @@
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -26,12 +25,12 @@ import com.example.contact_nb12.list.DataManager
 import com.example.contact_nb12.list.ItemTouchHelperCallback
 import com.example.contact_nb12.main.MainActivity
 import com.example.contact_nb12.models.Contact
-import com.example.contact_nb12.mypage.MyPageFragment.Companion.REQUEST_CODE_ADD_CONTACT
 
 class ContactListFragment : Fragment(),ContactAddDialog.OnContactAddedListener {
     private var _binding: FragmentContactListBinding? = null
     private var mainActivity: MainActivity? = null
     private var contactAddDialog: ContactAddDialog? = null
+    private var selectedImageUri: Uri? = null
 
     private val binding get() = _binding!!
     private lateinit var contactRecycler: RecyclerView
@@ -110,7 +109,7 @@ class ContactListFragment : Fragment(),ContactAddDialog.OnContactAddedListener {
         contactRecycler.layoutManager = LinearLayoutManager(requireContext())
 
         // ItemTouchHelper 설정
-        val adapter = ContactAdapter(list)
+        val adapter = ContactAdapter(list, selectedImageUri)
         val callback = ItemTouchHelperCallback(adapter)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(contactRecycler)
@@ -131,6 +130,7 @@ class ContactListFragment : Fragment(),ContactAddDialog.OnContactAddedListener {
                 val intent = Intent(requireContext(), DetailActivity::class.java)
                 intent.putExtra("selectedItem", selectedItem) // 객체를 intent에 추가
                 intent.putExtra("position", position)
+                intent.putExtra("selectedImageUri", selectedImageUri?.toString())
                 Log.d("tag", selectedItem.toString())
                 startActivityForResult(intent, REQUEST_DETAIL) // DetailActivity 시작
             }
@@ -192,7 +192,7 @@ class ContactListFragment : Fragment(),ContactAddDialog.OnContactAddedListener {
                             emailCursor.close()
 
                             val model = Contact(
-                                Img = R.drawable.dialog_profile,
+                                Img =selectedImageUri,
                                 name = name,
                                 phonenumber = phoneNumber.toString(),
                                 email = email,
