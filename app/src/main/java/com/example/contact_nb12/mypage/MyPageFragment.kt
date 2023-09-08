@@ -33,6 +33,7 @@ class MyPageFragment : Fragment() {
         val editButton = mainActivity?.getEditButton()
         editButton?.setOnClickListener {
             val dialogFragment = AddContactDialogFragment(
+                binding.centerName.text.toString(),
                 binding.telText.text.toString(),
                 binding.birthText.text.toString(),
                 binding.EmailText.text.toString(),
@@ -83,16 +84,19 @@ class MyPageFragment : Fragment() {
         } else if (requestCode == REQUEST_CODE_ADD_CONTACT && resultCode == Activity.RESULT_OK) {
             // 다이얼로그에서 업데이트한 데이터를 받아서 처리
             data?.let {
+                val newName=it.getStringExtra("newName")
                 val newPhoneNumber = it.getStringExtra("newPhoneNumber")
                 val newEmail = it.getStringExtra("newEmail")
                 val newBirthday = it.getStringExtra("newBirthday")
                 val newNickname = it.getStringExtra("newNickName")
 
                 // 업데이트된 데이터를 UI에 반영
+                binding.centerName.text = newName
                 binding.telText.text = newPhoneNumber
                 binding.EmailText.text = newEmail
                 binding.birthText.text = newBirthday
                 binding.nickNamText.text = newNickname
+
 
                 val newImageUri = data?.extras?.getParcelable<Uri>("newImageUri")
                 newImageUri?.let { imageUri ->

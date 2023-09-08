@@ -47,12 +47,12 @@ class ContactDetailFragment : Fragment() {
         }
 
         binding.BackPoint.setOnClickListener {
-            val mainintent = Intent(context, MainActivity::class.java)
-            startActivity(mainintent)
+        requireActivity().finish()
         }
         binding.Edit.setOnClickListener {
             val image = arguments?.getInt("image", 0)
             val dialogFragment = AddContactDialogFragment(
+                binding.Name.text.toString(),
                 binding.numberText.text.toString(),
                 binding.BirthDateText.text.toString(),
                 binding.EmailText.text.toString(),
@@ -74,12 +74,14 @@ class ContactDetailFragment : Fragment() {
         Log.d("MyPageFragment", "onActivityResult called with requestCode: $requestCode, resultCode: $resultCode")
 
             data?.let {
+                val newName = it.getStringExtra("newName")
                 val newPhoneNumber = it.getStringExtra("newPhoneNumber")
                 val newEmail = it.getStringExtra("newEmail")
                 val newBirthday = it.getStringExtra("newBirthday")
                 val newNickname = it.getStringExtra("newNickName")
 
                 // 업데이트된 데이터를 UI에 반영
+                binding.Name.text = newName
                 binding.numberText.text = newPhoneNumber
                 binding.EmailText.text = newEmail
                 binding.BirthDateText.text = newBirthday
@@ -93,4 +95,5 @@ class ContactDetailFragment : Fragment() {
             }
         }
     }
+
 }

@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contact_nb12.R
+import com.example.contact_nb12.models.Contact
 
 class ItemTouchHelperCallback(
     private val itemMoveListener: OnItemMoveListener
@@ -16,6 +17,7 @@ class ItemTouchHelperCallback(
     interface OnItemMoveListener {
         fun onItemMoved(fromPosition: Int, toPosition: Int)
         fun onItemSwiped(position: Int)
+        fun addItem(contact: Contact)
     }
 
     override fun getMovementFlags(

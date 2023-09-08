@@ -1,6 +1,7 @@
 package com.example.contact_nb12.mypage
 
 import android.annotation.SuppressLint
+
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
@@ -21,9 +22,11 @@ import androidx.fragment.app.DialogFragment
 import com.example.contact_nb12.R
 import com.example.contact_nb12.databinding.FragmentAddContactDialogBinding
 import com.example.contact_nb12.detail.ContactDetailFragment
+import com.example.contact_nb12.models.Contact
 import com.example.contact_nb12.mypage.MyPageFragment.Companion.REQUEST_CODE_ADD_CONTACT
 
-class AddContactDialogFragment(private var originalPhoneNum: String,
+class AddContactDialogFragment(private var originName:String,
+                                private var originalPhoneNum: String,
                                private var originalBirth: String,
                                private var originalEmail: String,
                                private var originalNickname: String,
@@ -47,6 +50,7 @@ class AddContactDialogFragment(private var originalPhoneNum: String,
         binding.diaImg.setOnClickListener {
             openGallery()
         }
+        binding.mypageName.setText(originName)
         binding.mypageNameEdittext.setText(originalPhoneNum)
         binding.mypageBirthEdittext.setText(originalBirth)
         binding.mypageEmailEdittext.setText(originalEmail)
@@ -59,6 +63,8 @@ class AddContactDialogFragment(private var originalPhoneNum: String,
 
         binding.mypageSaveBtn.setOnClickListener {
             Log.d("AddContactDialogFragment", "Save button clicked")
+
+            val newName= binding.mypageName.text.toString()
             val newPhoneNum = binding.mypageNameEdittext.text.toString()
             val newbirth = binding.mypageBirthEdittext.text.toString()
             val newEmail = binding.mypageEmailEdittext.text.toString()
@@ -66,6 +72,7 @@ class AddContactDialogFragment(private var originalPhoneNum: String,
 
 
             val bundle = Bundle()
+            bundle.putString("newName",newName)
             bundle.putString("newPhoneNumber", newPhoneNum)
             bundle.putString("newBirthday", newbirth)
             bundle.putString("newEmail", newEmail)
@@ -73,9 +80,10 @@ class AddContactDialogFragment(private var originalPhoneNum: String,
 
 
             selectedImageUri?.let { imageUri ->
-                bundle.putParcelable("newImageUri", imageUri) // 이미지 URI를 번들에 추가
+                bundle.putParcelable("newImageUri", imageUri)
             }
             Log.d("AddContactDialogFragment", "Data to send: $bundle")
+
             targetFragment?.onActivityResult(
                 REQUEST_CODE_ADD_CONTACT,
                 Activity.RESULT_OK,

@@ -1,6 +1,9 @@
 import android.Manifest
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
@@ -18,13 +21,20 @@ import com.example.contact_nb12.R
 import com.example.contact_nb12.databinding.FragmentContactListBinding
 import com.example.contact_nb12.detail.DetailActivity
 import com.example.contact_nb12.list.ContactAdapter
+import com.example.contact_nb12.list.ContactAddDialog
 import com.example.contact_nb12.list.DataManager
 import com.example.contact_nb12.list.ItemTouchHelperCallback
+import com.example.contact_nb12.main.MainActivity
 import com.example.contact_nb12.models.Contact
+import com.example.contact_nb12.mypage.MyPageFragment.Companion.REQUEST_CODE_ADD_CONTACT
 
-class ContactListFragment : Fragment() {
+class ContactListFragment : Fragment(),ContactAddDialog.OnContactAddedListener {
     private var _binding: FragmentContactListBinding? = null
+    private var mainActivity: MainActivity? = null
+    private var contactAddDialog: ContactAddDialog? = null
+
     private val binding get() = _binding!!
+    private lateinit var contactRecycler: RecyclerView
 
     private val requestContactPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -64,11 +74,24 @@ class ContactListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentContactListBinding.inflate(inflater)
+
+        val mainFabAdd = mainActivity?.getFlotingButton()
+        mainFabAdd?.setOnClickListener {
+            // 이미 생성된 ContactAddDialog가 있는지 확인하고 재사용하거나 새로 생성
+            if (contactAddDialog == null) {
+                contactAddDialog = ContactAddDialog()
+            }
+            contactAddDialog?.setOnContactAddedListener(this)
+            contactAddDialog?.show(parentFragmentManager, "ContactAddDialog")
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        contactRecycler = binding.contactRecycler
+        contactRecycler.layoutManager = LinearLayoutManager(requireContext())
 
         // 연락처 권한설정
         initContactPermission()
@@ -79,6 +102,7 @@ class ContactListFragment : Fragment() {
             // 권한이 없는 경우 권한 요청
             requestCallPermissionLauncher.launch(Manifest.permission.CALL_PHONE)
         }
+
     }
 
     private fun initView(list: MutableList<Contact>) = with(binding) {
@@ -161,7 +185,7 @@ class ContactListFragment : Fragment() {
                     )
 
                     emailCursor?.let {
-                        if(it != null && it.moveToFirst()) {
+                        if (it != null && it.moveToFirst()) {
                             val emailIndex: Int =
                                 emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)
                             val email: String = emailCursor.getString(emailIndex)
@@ -185,8 +209,35 @@ class ContactListFragment : Fragment() {
         return list
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainActivity) {
+            mainActivity = context
+        }
+    }
+
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
+
+    override fun onContactAdded(contact: Contact) {
+        DataManager.addContact(contact)
+
+        // 추가된 연락처 정보를 RecyclerView에 업데이트
+        val adapter = contactRecycler.adapter as? ContactAdapter
+        adapter?.addItem(contact)
+
+        // 어댑터에게 데이터가 변경되었음을 알림
+        adapter?.notifyDataSetChanged()
+    }
+
+   /* private fun addContact() {
+        val contactAddDialog = ContactAddDialog()
+        contactAddDialog.setOnContactAddedListener(this) // 연락처 추가 결과를 리스너로 받음
+        contactAddDialog.show(parentFragmentManager, "ContactAddDialog")
+    }*/
+
+
 }

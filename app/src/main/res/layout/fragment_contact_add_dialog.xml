@@ -14,7 +14,7 @@
 
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/dia_img"
+            android:id="@+id/add_img"
             android:layout_width="150dp"
             android:layout_height="131dp"
             android:layout_marginTop="16dp"
@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/mypage_name"
+            android:id="@+id/add_name"
             android:layout_width="wrap_content"
             android:layout_height="47dp"
             android:autofillHints="이름을 입력하세요"
@@ -36,10 +36,10 @@
             android:text=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dia_img" />
+            app:layout_constraintTop_toBottomOf="@+id/add_img" />
 
         <EditText
-            android:id="@+id/mypage_name_edittext"
+            android:id="@+id/add_edit_tel"
             android:layout_width="wrap_content"
             android:layout_height="47dp"
             android:layout_marginStart="40dp"
@@ -54,10 +54,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mypage_name" />
+            app:layout_constraintTop_toBottomOf="@+id/add_name" />
 
         <EditText
-            android:id="@+id/mypage_birth_edittext"
+            android:id="@+id/add_birth_edittext"
             android:layout_width="wrap_content"
             android:layout_height="47dp"
             android:layout_marginStart="40dp"
@@ -72,10 +72,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mypage_name_edittext" />
+            app:layout_constraintTop_toBottomOf="@+id/add_edit_tel" />
 
         <EditText
-            android:id="@+id/mypage_email_edittext"
+            android:id="@+id/add_email_edittext"
             android:layout_width="wrap_content"
             android:layout_height="47dp"
             android:layout_marginStart="40dp"
@@ -90,10 +90,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mypage_birth_edittext" />
+            app:layout_constraintTop_toBottomOf="@+id/add_birth_edittext" />
 
         <EditText
-            android:id="@+id/mypage_nick_name"
+            android:id="@+id/add_nick_name"
             android:layout_width="wrap_content"
             android:layout_height="47dp"
             android:layout_marginStart="40dp"
@@ -108,10 +108,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mypage_email_edittext" />
+            app:layout_constraintTop_toBottomOf="@+id/add_email_edittext" />
 
         <Button
-            android:id="@+id/mypage_cancel_btn"
+            android:id="@+id/add_cancel_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="100dp"
@@ -120,10 +120,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.699"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/mypage_save_btn" />
+            app:layout_constraintTop_toTopOf="@+id/add_save_btn" />
 
         <Button
-            android:id="@+id/mypage_save_btn"
+            android:id="@+id/add_save_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -133,7 +133,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.291"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mypage_nick_name" />
+            app:layout_constraintTop_toBottomOf="@+id/add_nick_name" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
