@@ -29,10 +29,12 @@ object DataManager {
         return contacts
     }
 
+
     fun addContact(contact: Contact) {
         // 이미지 URI를 Contact 객체에 설정
 
         contacts.add(contact)
+
     }
 
 }

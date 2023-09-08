@@ -31,7 +31,6 @@ data class Contact(
         parcel.writeString(email)
         parcel.writeString(birth)
         parcel.writeString(nickname)
-
         parcel.writeByte(if (isMark) 1 else 0)
     }
 
