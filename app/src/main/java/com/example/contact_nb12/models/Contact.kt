@@ -11,7 +11,6 @@ data class Contact(
     val email: String,
     val birth: String,
     val nickname: String,
-    val imageUri: String? = null,
     var isMark: Boolean = false
 ) : Parcelable {
 
@@ -22,7 +21,6 @@ data class Contact(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?:"",
         parcel.readByte() != 0.toByte()
     )
 
@@ -33,7 +31,7 @@ data class Contact(
         parcel.writeString(email)
         parcel.writeString(birth)
         parcel.writeString(nickname)
-        parcel.writeString(imageUri)
+
         parcel.writeByte(if (isMark) 1 else 0)
     }
 

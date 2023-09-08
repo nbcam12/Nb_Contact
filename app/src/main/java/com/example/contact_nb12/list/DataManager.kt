@@ -29,11 +29,10 @@ object DataManager {
         return contacts
     }
 
-    fun addContact(contact: Contact, imageUriString: String? = null) {
+    fun addContact(contact: Contact) {
         // 이미지 URI를 Contact 객체에 설정
-        val newContact = contact.copy(imageUri = imageUriString)
 
-        contacts.add(newContact)
+        contacts.add(contact)
     }
 
 }
