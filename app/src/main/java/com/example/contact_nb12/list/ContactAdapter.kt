@@ -115,6 +115,12 @@ class ContactAdapter(private val Items: MutableList<Contact>,private var selecte
         val callIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phoneNumber"))
         // 전화 걸기 인텐트 실행
         context.startActivity(callIntent)
+
+//        // 아이템 상태 변경
+//        Items[position].isMark = !Items[position].isMark
+         //RecyclerView 갱신
+        notifyItemChanged(position)
+
     }
 
     override fun addItem(contact: Contact) {
