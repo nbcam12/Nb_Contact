@@ -45,15 +45,7 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         mainFabAdd.setOnClickListener {
-            AddContactDialogFragment(
-                "", // 초기 전화번호 값
-                "", // 초기 생일 값
-                "", // 초기 이메일 값
-                "",// 초기 닉네임 값
-                R.drawable.dialog_profile//초기 사진 값
-            ).show(
-                supportFragmentManager, "AddContactDialogFragment"
-            )
+
         }
 
         // NumberPad 이동
@@ -66,4 +58,5 @@ class MainActivity : AppCompatActivity() {
 
     // fragment에서 editButton 컨트롤용
     fun getEditButton(): ImageButton = binding.mainEdit
+    fun getFlotingButton(): ImageButton = binding.mainFabAdd
 }

@@ -3,17 +3,11 @@ package com.example.contact_nb12.list
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contact_nb12.R
 import com.example.contact_nb12.databinding.ItemViewtypeBookmarkBinding
@@ -105,9 +99,12 @@ class ContactAdapter(private val Items: MutableList<Contact>) : RecyclerView.Ada
     }
 
     override fun onItemMoved(fromPosition: Int, toPosition: Int) {
-        Collections.swap(Items, fromPosition, toPosition)
-        notifyItemMoved(fromPosition, toPosition)
+        if (fromPosition < Items.size && toPosition < Items.size) {
+            Collections.swap(Items, fromPosition, toPosition)
+            notifyItemMoved(fromPosition, toPosition)
+        }
     }
+
 
     override fun onItemSwiped(position: Int) {
         // 스와이프한 아이템의 전화 번호 가져오기
@@ -116,6 +113,10 @@ class ContactAdapter(private val Items: MutableList<Contact>) : RecyclerView.Ada
         val callIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phoneNumber"))
         // 전화 걸기 인텐트 실행
         context.startActivity(callIntent)
+    }
+
+    override fun addItem(contact: Contact) {
+        Items.add(contact)
     }
 
     override fun getItemViewType(position: Int): Int {
