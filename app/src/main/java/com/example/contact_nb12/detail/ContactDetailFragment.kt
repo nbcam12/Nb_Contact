@@ -31,7 +31,7 @@ class ContactDetailFragment : Fragment() {
         binding.EmailText.text = arguments?.getString("email")
         binding.BirthDateText.text = arguments?.getString("birth")
         binding.NickNameText.text = arguments?.getString("nickName")
-
+        binding.UserImage.clipToOutline = true
 
         return binding.root
     }
@@ -61,7 +61,7 @@ class ContactDetailFragment : Fragment() {
             )
 
 
-
+            binding.UserImage.clipToOutline = true
             selectedImageUri?.let { it1 -> dialogFragment.setImageUri(it1) } // 이미지 URI를 다이얼로그에 전달
             dialogFragment.setTargetFragment(this@ContactDetailFragment, REQUEST_CODE_ADD_CONTACT)
             dialogFragment.show(parentFragmentManager, "AddContactDialogFragment")
@@ -91,8 +91,8 @@ class ContactDetailFragment : Fragment() {
                 newImageUri?.let { imageUri ->
                     selectedImageUri = imageUri
                     binding.UserImage.setImageURI(imageUri)
-
             }
+                binding.UserImage.clipToOutline = true
         }
     }
 
