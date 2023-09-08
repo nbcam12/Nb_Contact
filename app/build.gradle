@@ -48,5 +48,10 @@ dependencies {
     //circle 이미지
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx"
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.contact_nb12.detail
 
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,37 +20,36 @@ import com.example.contact_nb12.mypage.AddContactDialogFragment
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
-
-    public val item:Contact? by lazy {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-            intent.getParcelableExtra("selectedItem",Contact::class.java)
-        }else{
-            intent.getParcelableExtra<Contact>("selectedItem")
-        }
+    private var selectedImageUri: Uri? = null
+    private val imageUri: Uri? by lazy {
+        intent.getStringExtra("selectedImageUri")?.let { Uri.parse(it) }
     }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val position = intent.getIntExtra("position", -1)
+        if (position != -1) {
+            val selectedContact = DataManager.getContacts()[position]
 
-        /// fragement로 값 넘기기
-        var fragment = ContactDetailFragment()
-        var bundle = Bundle()
-        bundle.putInt("image",item!!.Img)
-        bundle.putString("name",item!!.name)
-        bundle.putString("number",item!!.phonenumber)
-        bundle.putString("email",item!!.email)
-        bundle.putString("birth",item!!.birth)
-        bundle.putString("nickName",item!!.nickname)
-        fragment.arguments = bundle //fragment의 arguments에 데이터를 담은 bundle을 넘겨줌
-        supportFragmentManager!!.beginTransaction()
-            .replace(R.id.fragmentContainerView, fragment)
-            .commit()
+            // 이미지 URI를 문자열로 전달
+            val fragment = ContactDetailFragment()
+            val bundle = Bundle()
+            bundle.putString("name", selectedContact.name)
+            bundle.putString("number", selectedContact.phonenumber)
+            bundle.putString("email", selectedContact.email)
+            bundle.putString("birth", selectedContact.birth)
+            bundle.putString("nickName", selectedContact.nickname)
+            imageUri?.let { bundle.putString("newImageUri", it.toString()) }
+
+            fragment.arguments = bundle
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, fragment)
+                .commit()
+        }
 
 
-    }
-
-
-}
+}}
