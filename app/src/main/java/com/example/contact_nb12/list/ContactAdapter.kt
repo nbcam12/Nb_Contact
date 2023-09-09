@@ -15,9 +15,9 @@ import com.example.contact_nb12.databinding.ItemViewtypeNormalBinding
 import com.example.contact_nb12.models.Contact
 import java.util.Collections
 
-class ContactAdapter(private val Items: MutableList<Contact>,private var selectedImageUri: Uri?) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+class ContactAdapter(list: MutableList<Contact>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     ItemTouchHelperCallback.OnItemMoveListener {
-
+    private val mList = list
     private lateinit var dragListener: OnStartDragListener
     private lateinit var context: Context
 
@@ -54,7 +54,7 @@ class ContactAdapter(private val Items: MutableList<Contact>,private var selecte
             itemClick?.onClick(view, position)
         }
 
-        val contact = Items[position]
+        val contact = mList[position]
         when (holder) {
             is ContactBookmarkViewHolder -> {
                 holder.bind(contact)
@@ -89,7 +89,7 @@ class ContactAdapter(private val Items: MutableList<Contact>,private var selecte
     }
 
     override fun getItemCount(): Int {
-        return Items.size
+        return mList.size
     }
 
     interface OnStartDragListener {
@@ -101,8 +101,8 @@ class ContactAdapter(private val Items: MutableList<Contact>,private var selecte
     }
 
     override fun onItemMoved(fromPosition: Int, toPosition: Int) {
-        if (fromPosition < Items.size && toPosition < Items.size) {
-            Collections.swap(Items, fromPosition, toPosition)
+        if (fromPosition < mList.size && toPosition < mList.size) {
+            Collections.swap(mList, fromPosition, toPosition)
             notifyItemMoved(fromPosition, toPosition)
         }
     }
@@ -110,25 +110,38 @@ class ContactAdapter(private val Items: MutableList<Contact>,private var selecte
 
     override fun onItemSwiped(position: Int) {
         // 스와이프한 아이템의 전화 번호 가져오기
-        val phoneNumber = Items[position].phonenumber
+        val phoneNumber = mList[position].phonenumber
         // 전화 걸기 인텐트 생성
         val callIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phoneNumber"))
         // 전화 걸기 인텐트 실행
         context.startActivity(callIntent)
 
-//        // 아이템 상태 변경
-//        Items[position].isMark = !Items[position].isMark
-         //RecyclerView 갱신
         notifyItemChanged(position)
-
     }
 
-    override fun addItem(contact: Contact) {
-        Items.add(contact)
+    fun changeItems(items: MutableList<Contact>) {
+        mList.clear()
+        addItems(items)
+    }
+
+    fun getItem(position: Int) = mList[position]
+
+    fun addItems(list: MutableList<Contact>) {
+        mList.addAll(list)
+    }
+
+    fun addItem(item: Contact) {
+        mList.add(item)
+        notifyItemChanged(mList.size - 1)
+    }
+
+    fun modifyItem(position:Int, item: Contact) {
+        mList[position] = item
+        notifyItemChanged(position)
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (Items[position].isMark) VIEW_TYPE_BOOKMARK else VIEW_TYPE_NORMAL
+        return if (mList[position].isMark) VIEW_TYPE_BOOKMARK else VIEW_TYPE_NORMAL
     }
 
     inner class ContactBookmarkViewHolder(val binding: ItemViewtypeBookmarkBinding) :
