@@ -1,11 +1,8 @@
 import android.Manifest
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,34 +20,31 @@ import com.example.contact_nb12.list.ContactAdapter
 import com.example.contact_nb12.list.ContactAddDialog
 import com.example.contact_nb12.list.DataManager
 import com.example.contact_nb12.list.ItemTouchHelperCallback
-import com.example.contact_nb12.main.MainActivity
 import com.example.contact_nb12.models.Contact
 
-class ContactListFragment : Fragment(),ContactAddDialog.OnContactAddedListener {
+class ContactListFragment : Fragment() {
     private var _binding: FragmentContactListBinding? = null
-    private var mainActivity: MainActivity? = null
     private var contactAddDialog: ContactAddDialog? = null
-    private var selectedImageUri: Uri? = null
+    private val contactAdapter: ContactAdapter by lazy {
+        ContactAdapter(DataManager.setDummyData())
+    }
 
     private val binding get() = _binding!!
-    private lateinit var contactRecycler: RecyclerView
 
     private val requestContactPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            val list: MutableList<Contact>
             if (isGranted) {
                 // 권한을 허용한 경우 처리
-                list = getContacts()
+                contactAdapter.changeItems(getDeviceContacts())
             } else {
                 // 권한을 거절한 경우 처리
-                list = DataManager.getContacts().toMutableList()
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.permission_contact_denied_msg),
-                    Toast.LENGTH_LONG
-                ).show()
+//                Toast.makeText(
+//                    requireContext(),
+//                    getString(R.string.permission_contact_denied_msg),
+//                    Toast.LENGTH_LONG
+//                ).show()
             }
-            initView(list)
+            initView()
         }
 
     // 전화권한요청
@@ -63,8 +57,14 @@ class ContactListFragment : Fragment(),ContactAddDialog.OnContactAddedListener {
             }
         }
 
+    private val registerDetailLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {result ->
+        }
+
     companion object {
-        private const val REQUEST_DETAIL = 101
+        const val EXTRA_CONTACT_MODEL = "extra_contact_model"
+        const val EXTRA_POSITION = "extra_position"
+
         fun newInstacne() = ContactListFragment()
     }
 
@@ -74,27 +74,16 @@ class ContactListFragment : Fragment(),ContactAddDialog.OnContactAddedListener {
     ): View {
         _binding = FragmentContactListBinding.inflate(inflater)
 
-        val mainFabAdd = mainActivity?.getFlotingButton()
-        mainFabAdd?.setOnClickListener {
-            // 이미 생성된 ContactAddDialog가 있는지 확인하고 재사용하거나 새로 생성
-            if (contactAddDialog == null) {
-                contactAddDialog = ContactAddDialog()
-            }
-            contactAddDialog?.setOnContactAddedListener(this)
-            contactAddDialog?.show(parentFragmentManager, "ContactAddDialog")
-        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        contactRecycler = binding.contactRecycler
-        contactRecycler.layoutManager = LinearLayoutManager(requireContext())
-
         // 연락처 권한설정
         initContactPermission()
+    }
 
+    private fun initView() = with(binding) {
         // 전화 걸기 전 권한 확인
         if (isCallPhonePermissionGranted()) {
         } else {
@@ -102,39 +91,33 @@ class ContactListFragment : Fragment(),ContactAddDialog.OnContactAddedListener {
             requestCallPermissionLauncher.launch(Manifest.permission.CALL_PHONE)
         }
 
-    }
-
-    private fun initView(list: MutableList<Contact>) = with(binding) {
-
         contactRecycler.layoutManager = LinearLayoutManager(requireContext())
-
         // ItemTouchHelper 설정
-        val adapter = ContactAdapter(list, selectedImageUri)
-        val callback = ItemTouchHelperCallback(adapter)
+        val callback = ItemTouchHelperCallback(contactAdapter)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(contactRecycler)
 
-        contactRecycler.adapter = adapter
-
-        adapter.startDrag(object : ContactAdapter.OnStartDragListener {
+        contactAdapter.startDrag(object : ContactAdapter.OnStartDragListener {
             override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
                 touchHelper.startDrag(viewHolder)
             }
         })
 
-
         // RecyclerView 아이템 클릭 이벤트 처리
-        adapter.itemClick = object : ContactAdapter.ItemClick {
+        contactAdapter.itemClick = object : ContactAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-                val selectedItem = list[position]
-                val intent = Intent(requireContext(), DetailActivity::class.java)
-                intent.putExtra("selectedItem", selectedItem) // 객체를 intent에 추가
-                intent.putExtra("position", position)
-                intent.putExtra("selectedImageUri", selectedImageUri?.toString())
-                Log.d("tag", selectedItem.toString())
-                startActivityForResult(intent, REQUEST_DETAIL) // DetailActivity 시작
+                val item = contactAdapter.getItem(position)
+                registerDetailLauncher.launch(
+                    DetailActivity.editIntent(
+                        requireContext(),
+                        item,
+                        position
+                    )
+                )
             }
         }
+
+        contactRecycler.adapter = contactAdapter
     }
 
     private fun isCallPhonePermissionGranted(): Boolean {
@@ -149,15 +132,13 @@ class ContactListFragment : Fragment(),ContactAddDialog.OnContactAddedListener {
         val checkPermission =
             ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS)
         if (checkPermission == PackageManager.PERMISSION_GRANTED) {
-            val list = getContacts()
-            initView(list)
+            initView()
         } else {
             requestContactPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
         }
     }
 
-
-    private fun getContacts(): MutableList<Contact> {
+    private fun getDeviceContacts(): MutableList<Contact> {
         val contacts = requireContext().contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
             null,
@@ -175,6 +156,8 @@ class ContactListFragment : Fragment(),ContactAddDialog.OnContactAddedListener {
                         it.getString(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
                     val phoneNumber =
                         it.getString(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                    val image =
+                        it.getString(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
 
                     val emailCursor = requireContext().contentResolver.query(
                         ContactsContract.CommonDataKinds.Email.CONTENT_URI,
@@ -192,7 +175,7 @@ class ContactListFragment : Fragment(),ContactAddDialog.OnContactAddedListener {
                             emailCursor.close()
 
                             val model = Contact(
-                                Img =selectedImageUri,
+                                Img = Uri.parse(image),
                                 name = name,
                                 phonenumber = phoneNumber.toString(),
                                 email = email,
@@ -209,35 +192,16 @@ class ContactListFragment : Fragment(),ContactAddDialog.OnContactAddedListener {
         return list
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is MainActivity) {
-            mainActivity = context
-        }
-    }
-
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
-    override fun onContactAdded(contact: Contact) {
-        DataManager.addContact(contact)
-
-        // 추가된 연락처 정보를 RecyclerView에 업데이트
-        val adapter = contactRecycler.adapter as? ContactAdapter
-        adapter?.addItem(contact)
-
-        // 어댑터에게 데이터가 변경되었음을 알림
-        adapter?.notifyDataSetChanged()
+    fun addContactItem(item: Contact) {
+        contactAdapter.addItem(item)
     }
 
-   /* private fun addContact() {
-        val contactAddDialog = ContactAddDialog()
-        contactAddDialog.setOnContactAddedListener(this) // 연락처 추가 결과를 리스너로 받음
-        contactAddDialog.show(parentFragmentManager, "ContactAddDialog")
-    }*/
-
-
+    fun modifyContactItem(position: Int, item: Contact) {
+        contactAdapter.modifyItem(position, item)
+    }
 }

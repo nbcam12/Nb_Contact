@@ -1,20 +1,14 @@
 package com.example.contact_nb12.main
 
-import android.Manifest
+import ContactListFragment
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.widget.ImageButton
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
-import com.example.contact_nb12.R
 import com.example.contact_nb12.databinding.MainActivityBinding
-import com.example.contact_nb12.models.Contact
-import com.example.contact_nb12.mypage.AddContactDialogFragment
+import com.example.contact_nb12.list.ContactAddDialog
 import com.example.contact_nb12.mypage.MyPageFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -24,8 +18,13 @@ class MainActivity : AppCompatActivity() {
         ViewPagerAdapter(this@MainActivity)
     }
 
+    init{
+        _instance = this
+    }
 
     companion object {
+        private var _instance: MainActivity? = null
+        val instance get() = _instance!!
         fun newIntent(context: Context): Intent = Intent(context, MainActivity::class.java)
     }
 
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         mainFabAdd.setOnClickListener {
-
+            ContactAddDialog.newInstance().show(supportFragmentManager, "ContactAddDialog")
         }
 
         // NumberPad 이동
@@ -58,5 +57,6 @@ class MainActivity : AppCompatActivity() {
 
     // fragment에서 editButton 컨트롤용
     fun getEditButton(): ImageButton = binding.mainEdit
-    fun getFlotingButton(): ImageButton = binding.mainFabAdd
+    fun getListFragment() : ContactListFragment = viewPagerAdapter.getContactListFragment()
+    fun getMyPageFragment() : MyPageFragment = viewPagerAdapter.getMyPageFragment()
 }

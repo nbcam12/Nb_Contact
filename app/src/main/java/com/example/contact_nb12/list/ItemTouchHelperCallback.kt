@@ -17,7 +17,7 @@ class ItemTouchHelperCallback(
     interface OnItemMoveListener {
         fun onItemMoved(fromPosition: Int, toPosition: Int)
         fun onItemSwiped(position: Int)
-        fun addItem(contact: Contact)
+//        fun addItem(contact: Contact)
     }
 
     override fun getMovementFlags(
