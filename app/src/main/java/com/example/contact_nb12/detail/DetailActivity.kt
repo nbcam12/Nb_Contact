@@ -67,12 +67,13 @@ class DetailActivity : AppCompatActivity() {
             }
         }
 
-        val fragment = ContactDetailFragment.newInstacne()
         // fragment 이동
-        fragment.arguments = bundle
+        getDetailFragment().arguments = bundle
         supportFragmentManager.beginTransaction()
-            .replace(com.example.contact_nb12.R.id.fragmentContainerView, fragment)
+            .replace(com.example.contact_nb12.R.id.fragmentContainerView, getDetailFragment())
             .addToBackStack(null)
             .commit()
     }
+
+    fun getDetailFragment() : ContactDetailFragment = ContactDetailFragment.instance
 }
