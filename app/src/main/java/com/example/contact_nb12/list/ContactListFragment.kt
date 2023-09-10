@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contact_nb12.R
+import com.example.contact_nb12.Util.Utils.getDefaultImgUri
 import com.example.contact_nb12.databinding.FragmentContactListBinding
 import com.example.contact_nb12.detail.DetailActivity
 import com.example.contact_nb12.list.ContactAdapter
@@ -59,7 +60,7 @@ class ContactListFragment : Fragment() {
         }
 
     private val registerDetailLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {result ->
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         }
 
     companion object {
@@ -159,7 +160,8 @@ class ContactListFragment : Fragment() {
                     val phoneNumber =
                         it.getString(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
                     val image =
-                        it.getString(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.PHOTO_URI)) ?: getDefaultImgUri().toString()
+                        it.getString(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
+                            ?: getDefaultImgUri(requireContext()).toString()
 
                     val emailCursor = requireContext().contentResolver.query(
                         ContactsContract.CommonDataKinds.Email.CONTENT_URI,
@@ -169,7 +171,7 @@ class ContactListFragment : Fragment() {
                         null
                     )
 
-                    emailCursor?.let {it ->
+                    emailCursor?.let { it ->
                         if (it.moveToFirst()) {
                             val emailIndex: Int =
                                 emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)
@@ -205,7 +207,14 @@ class ContactListFragment : Fragment() {
         return list
     }
 
-    private fun addListForDeviceContact(image: String, name: String, phoneNumber: String, email: String, birth: String, nickname: String): Contact {
+    private fun addListForDeviceContact(
+        image: String,
+        name: String,
+        phoneNumber: String,
+        email: String,
+        birth: String,
+        nickname: String
+    ): Contact {
         return Contact(
             Img = Uri.parse(image),
             name = name,
@@ -214,16 +223,6 @@ class ContactListFragment : Fragment() {
             birth = birth,
             nickname = nickname,
         )
-    }
-
-    // 기본프로필이미지 Uri
-    private fun getDefaultImgUri(): Uri {
-        val resId = R.drawable.dialog_profile
-        val imgUri =
-            "${ContentResolver.SCHEME_ANDROID_RESOURCE}://${resources.getResourcePackageName(resId)}/${
-                resources.getResourceTypeName(resId)
-            }/${resources.getResourceEntryName(resId)}"
-        return Uri.parse(imgUri)!!
     }
 
     override fun onDestroy() {
