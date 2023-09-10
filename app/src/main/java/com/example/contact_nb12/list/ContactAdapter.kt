@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contact_nb12.R
+import com.example.contact_nb12.Util.Utils.getDefaultImgUri
+import com.example.contact_nb12.Util.Utils.getImageForUri
 import com.example.contact_nb12.databinding.ItemViewtypeBookmarkBinding
 import com.example.contact_nb12.databinding.ItemViewtypeNormalBinding
 import com.example.contact_nb12.models.Contact
@@ -147,30 +149,30 @@ class ContactAdapter(list: MutableList<Contact>) : RecyclerView.Adapter<Recycler
     inner class ContactBookmarkViewHolder(val binding: ItemViewtypeBookmarkBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(contact: Contact) {
-            if (contact.Img != null) {
-                binding.listImg.setImageURI(contact.Img) // 이미지 Uri 사용
-            } else {
-                binding.listImg.setImageResource(R.drawable.default_profile) // 기본 이미지 리소스 사용
+        fun bind(contact: Contact)=with(binding) {
+            if(contact.Img == null) {
+                getImageForUri(context, getDefaultImgUri(context), listImg)
+            }else {
+                getImageForUri(context, contact.Img, listImg)
             }
-            binding.listName.text = contact.name
-            binding.listNumber.text = contact.phonenumber
-            binding.BookmarkBtn.setImageResource(R.drawable.full_star)
+            listName.text = contact.name
+            listNumber.text = contact.phonenumber
+            BookmarkBtn.setImageResource(R.drawable.full_star)
         }
     }
 
     inner class ContactNormalViewHolder(val binding: ItemViewtypeNormalBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(contact: Contact) {
-            if (contact.Img != null) {
-                binding.listImg.setImageURI(contact.Img) // 이미지 Uri 사용
-            } else {
-                binding.listImg.setImageResource(R.drawable.default_profile) // 기본 이미지 리소스 사용
+        fun bind(contact: Contact)=with(binding) {
+            if(contact.Img == null) {
+                getImageForUri(context, getDefaultImgUri(context), listImg)
+            }else {
+                getImageForUri(context, contact.Img, listImg)
             }
-            binding.listName.text = contact.name
-            binding.listNumber.text = contact.phonenumber
-            binding.BookmarkBtn.setImageResource(R.drawable.star)
+            listName.text = contact.name
+            listNumber.text = contact.phonenumber
+            BookmarkBtn.setImageResource(R.drawable.star)
         }
     }
 }
