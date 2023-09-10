@@ -1,8 +1,10 @@
 import android.Manifest
+import android.content.ContentResolver
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.provider.ContactsContract.CommonDataKinds.Nickname
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +26,6 @@ import com.example.contact_nb12.models.Contact
 
 class ContactListFragment : Fragment() {
     private var _binding: FragmentContactListBinding? = null
-    private var contactAddDialog: ContactAddDialog? = null
     private val contactAdapter: ContactAdapter by lazy {
         ContactAdapter(DataManager.setDummyData())
     }
@@ -132,6 +133,7 @@ class ContactListFragment : Fragment() {
         val checkPermission =
             ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS)
         if (checkPermission == PackageManager.PERMISSION_GRANTED) {
+            contactAdapter.changeItems(getDeviceContacts())
             initView()
         } else {
             requestContactPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
@@ -157,7 +159,7 @@ class ContactListFragment : Fragment() {
                     val phoneNumber =
                         it.getString(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
                     val image =
-                        it.getString(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
+                        it.getString(contacts.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.PHOTO_URI)) ?: getDefaultImgUri().toString()
 
                     val emailCursor = requireContext().contentResolver.query(
                         ContactsContract.CommonDataKinds.Email.CONTENT_URI,
@@ -167,29 +169,61 @@ class ContactListFragment : Fragment() {
                         null
                     )
 
-                    emailCursor?.let {
-                        if (it != null && it.moveToFirst()) {
+                    emailCursor?.let {it ->
+                        if (it.moveToFirst()) {
                             val emailIndex: Int =
                                 emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)
-                            val email: String = emailCursor.getString(emailIndex)
-                            emailCursor.close()
-
-                            val model = Contact(
-                                Img = Uri.parse(image),
-                                name = name,
-                                phonenumber = phoneNumber.toString(),
-                                email = email,
-                                birth = "",
-                                nickname = "",
+                            val email = emailCursor.getString(emailIndex)
+                            list.add(
+                                addListForDeviceContact(
+                                    image,
+                                    name,
+                                    phoneNumber,
+                                    email,
+                                    "",
+                                    ""
+                                )
                             )
-                            list.add(model)
+                        } else {
+                            list.add(
+                                addListForDeviceContact(
+                                    image,
+                                    name,
+                                    phoneNumber,
+                                    "",
+                                    "",
+                                    ""
+                                )
+                            )
                         }
+                        emailCursor.close()
                     }
                 }
             }
         }
 
         return list
+    }
+
+    private fun addListForDeviceContact(image: String, name: String, phoneNumber: String, email: String, birth: String, nickname: String): Contact {
+        return Contact(
+            Img = Uri.parse(image),
+            name = name,
+            phonenumber = phoneNumber,
+            email = email,
+            birth = birth,
+            nickname = nickname,
+        )
+    }
+
+    // 기본프로필이미지 Uri
+    private fun getDefaultImgUri(): Uri {
+        val resId = R.drawable.dialog_profile
+        val imgUri =
+            "${ContentResolver.SCHEME_ANDROID_RESOURCE}://${resources.getResourcePackageName(resId)}/${
+                resources.getResourceTypeName(resId)
+            }/${resources.getResourceEntryName(resId)}"
+        return Uri.parse(imgUri)!!
     }
 
     override fun onDestroy() {
