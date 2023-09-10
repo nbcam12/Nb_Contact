@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResultListener
 import com.example.contact_nb12.R
+import com.example.contact_nb12.Util.Utils.getDefaultImgUri
 import com.example.contact_nb12.databinding.FragmentContactAddDialogBinding
 import com.example.contact_nb12.detail.ContactDetailFragment
 import com.example.contact_nb12.main.MainActivity
@@ -65,32 +66,12 @@ class ContactAddDialog : DialogFragment() {
     private fun initView() = with(binding) {
         // 저장하기
         addSaveBtn.setOnClickListener {
-            val name = addName.text.toString()
-            val phoneNumber = addEditTel.text.toString()
-            val birthDay = addBirthEdittext.text.toString()
-            val email = addEmailEdittext.text.toString()
-            val nickName = addNickName.text.toString()
-            val newNickname = nickName
-
-            val bundle = Bundle()
-            bundle.putString("newName", name)
-            bundle.putString("newPhonenum", phoneNumber)
-            bundle.putString("newbirth", birthDay)
-            bundle.putString("newnick", newNickname)
-
-            val newContact = Contact(
-                Img = imageUri ?: getDefaultImgUri(),
-                name = name,
-                phonenumber = phoneNumber,
-                email = email,
-                birth = birthDay,
-                nickname = nickName
-            )
-
-            MainActivity.instance.getListFragment().addContactItem(newContact)
-            dialog?.dismiss()
+            val item = packagingData()
+            MainActivity.instance.getListFragment().addContactItem(item)
+            dismiss()
         }
 
+        // 취소
         addCancelBtn.setOnClickListener {
             dismiss()
         }
@@ -116,6 +97,23 @@ class ContactAddDialog : DialogFragment() {
         }
     }
 
+    private fun packagingData(): Contact= with(binding) {
+            val name = addName.text.toString()
+            val phoneNumber = addEditTel.text.toString()
+            val birthDay = addBirthEdittext.text.toString()
+            val email = addEmailEdittext.text.toString()
+            val nickName = addNickName.text.toString()
+
+        return Contact(
+            Img = imageUri ?: getDefaultImgUri(requireContext()),
+            name = name,
+            phonenumber = phoneNumber,
+            email = email,
+            birth = birthDay,
+            nickname = nickName
+        )
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -126,16 +124,6 @@ class ContactAddDialog : DialogFragment() {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             imageLauncher.launch(intent)
         }
-    }
-
-    // 기본프로필이미지 Uri
-    private fun getDefaultImgUri(): Uri {
-        val resId = R.drawable.dialog_profile
-        val imgUri =
-            "${ContentResolver.SCHEME_ANDROID_RESOURCE}://${resources.getResourcePackageName(resId)}/${
-                resources.getResourceTypeName(resId)
-            }/${resources.getResourceEntryName(resId)}"
-        return Uri.parse(imgUri)!!
     }
 
     override fun onDestroy() {
