@@ -14,7 +14,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.example.contact_nb12.R
+import com.example.contact_nb12.Util.Utils.getImageForUri
 import com.example.contact_nb12.databinding.FragmentAddContactDialogBinding
 import com.example.contact_nb12.detail.ContactDetailFragment
 import com.example.contact_nb12.detail.DetailActivity
@@ -114,8 +118,8 @@ class EditContactDialogFragment(val item: Contact, val position: Int) : DialogFr
                 // Detail
                 else -> {
                     dismiss()
-                    val intent = DetailActivity.editIntent(requireContext(), item, position)
-                    registerDetailLauncher.launch(intent)
+                    val fragment = DetailActivity.instance.getDetailFragment()
+                    fragment.updateData(item)
 
                     if (position != -1) {
                         MainActivity.instance.getListFragment().modifyContactItem(position, item)
@@ -132,7 +136,7 @@ class EditContactDialogFragment(val item: Contact, val position: Int) : DialogFr
 
     private fun initData() = with(binding) {
         mItem.let {
-            dialogImg.setImageURI(it.Img ?: getDefaultImgUri())
+            getImageForUri(requireContext(), it.Img!!, dialogImg)
             dialogName.setText(it.name)
             dialogPhone.setText(it.phonenumber)
             dialogBirth.setText(it.birth)
@@ -150,16 +154,6 @@ class EditContactDialogFragment(val item: Contact, val position: Int) : DialogFr
             email = dialogEmail.text.toString(),
             nickname = dialogNickName.text.toString()
         )
-    }
-
-    // 기본프로필이미지 Uri
-    private fun getDefaultImgUri(): Uri {
-        val resId = R.drawable.dialog_profile
-        val imgUri =
-            "${ContentResolver.SCHEME_ANDROID_RESOURCE}://${resources.getResourcePackageName(resId)}/${
-                resources.getResourceTypeName(resId)
-            }/${resources.getResourceEntryName(resId)}"
-        return Uri.parse(imgUri)!!
     }
 
     override fun onRequestPermissionsResult(
