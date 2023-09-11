@@ -3,29 +3,26 @@ package com.example.contact_nb12.list
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contact_nb12.R
+import com.example.contact_nb12.Util.Utils.getDefaultImgUri
+import com.example.contact_nb12.Util.Utils.getImageForUri
 import com.example.contact_nb12.databinding.ItemViewtypeBookmarkBinding
 import com.example.contact_nb12.databinding.ItemViewtypeNormalBinding
 import com.example.contact_nb12.models.Contact
 import java.util.Collections
 
-class ContactAdapter(private val Items: MutableList<Contact>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+class ContactAdapter(list: MutableList<Contact>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     ItemTouchHelperCallback.OnItemMoveListener {
-
+    private val mList = list
     private lateinit var dragListener: OnStartDragListener
     private lateinit var context: Context
+
 
     companion object {
         private const val VIEW_TYPE_BOOKMARK = 0
@@ -59,7 +56,7 @@ class ContactAdapter(private val Items: MutableList<Contact>) : RecyclerView.Ada
             itemClick?.onClick(view, position)
         }
 
-        val contact = Items[position]
+        val contact = mList[position]
         when (holder) {
             is ContactBookmarkViewHolder -> {
                 holder.bind(contact)
@@ -90,10 +87,11 @@ class ContactAdapter(private val Items: MutableList<Contact>) : RecyclerView.Ada
                 }
             }
         }
+
     }
 
     override fun getItemCount(): Int {
-        return Items.size
+        return mList.size
     }
 
     interface OnStartDragListener {
@@ -105,42 +103,76 @@ class ContactAdapter(private val Items: MutableList<Contact>) : RecyclerView.Ada
     }
 
     override fun onItemMoved(fromPosition: Int, toPosition: Int) {
-        Collections.swap(Items, fromPosition, toPosition)
-        notifyItemMoved(fromPosition, toPosition)
+        if (fromPosition < mList.size && toPosition < mList.size) {
+            Collections.swap(mList, fromPosition, toPosition)
+            notifyItemMoved(fromPosition, toPosition)
+        }
     }
+
 
     override fun onItemSwiped(position: Int) {
         // 스와이프한 아이템의 전화 번호 가져오기
-        val phoneNumber = Items[position].phonenumber
+        val phoneNumber = mList[position].phonenumber
         // 전화 걸기 인텐트 생성
         val callIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phoneNumber"))
         // 전화 걸기 인텐트 실행
         context.startActivity(callIntent)
+
+        notifyItemChanged(position)
+    }
+
+    fun changeItems(items: MutableList<Contact>) {
+        mList.clear()
+        addItems(items)
+    }
+
+    fun getItem(position: Int) = mList[position]
+
+    fun addItems(list: MutableList<Contact>) {
+        mList.addAll(list)
+    }
+
+    fun addItem(item: Contact) {
+        mList.add(item)
+        notifyItemChanged(mList.size - 1)
+    }
+
+    fun modifyItem(position:Int, item: Contact) {
+        mList[position] = item
+        notifyItemChanged(position)
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (Items[position].isMark) VIEW_TYPE_BOOKMARK else VIEW_TYPE_NORMAL
+        return if (mList[position].isMark) VIEW_TYPE_BOOKMARK else VIEW_TYPE_NORMAL
     }
 
     inner class ContactBookmarkViewHolder(val binding: ItemViewtypeBookmarkBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(contact: Contact) {
-            binding.listImg.setImageResource(contact.Img)
-            binding.listName.text = contact.name
-            binding.listNumber.text = contact.phonenumber
-            binding.BookmarkBtn.setImageResource(R.drawable.full_star)
+        fun bind(contact: Contact)=with(binding) {
+            if(contact.Img == null) {
+                getImageForUri(context, getDefaultImgUri(context), listImg)
+            }else {
+                getImageForUri(context, contact.Img, listImg)
+            }
+            listName.text = contact.name
+            listNumber.text = contact.phonenumber
+            BookmarkBtn.setImageResource(R.drawable.full_star)
         }
     }
 
     inner class ContactNormalViewHolder(val binding: ItemViewtypeNormalBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(contact: Contact) {
-            binding.listImg.setImageResource(contact.Img)
-            binding.listName.text = contact.name
-            binding.listNumber.text = contact.phonenumber
-            binding.BookmarkBtn.setImageResource(R.drawable.star)
+        fun bind(contact: Contact)=with(binding) {
+            if(contact.Img == null) {
+                getImageForUri(context, getDefaultImgUri(context), listImg)
+            }else {
+                getImageForUri(context, contact.Img, listImg)
+            }
+            listName.text = contact.name
+            listNumber.text = contact.phonenumber
+            BookmarkBtn.setImageResource(R.drawable.star)
         }
     }
 }

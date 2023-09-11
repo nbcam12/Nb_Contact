@@ -42,16 +42,6 @@
         app:layout_constraintTop_toBottomOf="@+id/listName" />
 
     <ImageView
-        android:id="@+id/callBtn"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/call"
-        app:layout_constraintStart_toEndOf="@+id/BookmarkBtn"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
         android:id="@+id/BookmarkBtn"
         android:layout_width="25dp"
         android:layout_height="25dp"

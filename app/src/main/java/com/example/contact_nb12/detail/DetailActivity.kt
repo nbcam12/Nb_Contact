@@ -1,53 +1,79 @@
 package com.example.contact_nb12.detail
 
+import ContactListFragment
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils.replace
-import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.commit
-import com.example.contact_nb12.R
-import com.example.contact_nb12.databinding.MainActivityBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.example.contact_nb12.databinding.ActivityDetailBinding
-import com.example.contact_nb12.list.DataManager
 import com.example.contact_nb12.models.Contact
+import com.example.contact_nb12.mypage.EditContactDialogFragment
+
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
+    private val position by lazy {
+        intent.getIntExtra(ContactListFragment.EXTRA_POSITION, -1)
+    }
 
-    public val item:Contact? by lazy {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-            intent.getParcelableExtra("selectedItem",Contact::class.java)
-        }else{
-            intent.getParcelableExtra<Contact>("selectedItem")
+    private val item by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(ContactListFragment.EXTRA_CONTACT_MODEL, Contact::class.java)
+        } else {
+            intent.getParcelableExtra(ContactListFragment.EXTRA_CONTACT_MODEL)
         }
     }
 
+    init {
+        _instance = this
+    }
+
+    companion object {
+
+        private var _instance : DetailActivity? = null
+        val instance get() = _instance!!
+        fun newIntent(context: Context): Intent = Intent(context, DetailActivity::class.java)
+        fun editIntent(context: Context, item: Contact, position: Int): Intent =
+            Intent(context, DetailActivity::class.java).apply {
+                putExtra(ContactListFragment.EXTRA_CONTACT_MODEL, item) // 객체를 intent에 추가
+                putExtra(ContactListFragment.EXTRA_POSITION, position)
+            }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /// fragement로 값 넘기기
-        var fragment = ContactDetailFragment()
-        var bundle = Bundle()
-        bundle.putInt("image",item!!.Img)
-        bundle.putString("name",item!!.name)
-        bundle.putString("number",item!!.phonenumber)
-        bundle.putString("email",item!!.email)
-        bundle.putString("birth",item!!.birth)
-        bundle.putString("nickName",item!!.nickname)
-        fragment.arguments = bundle //fragment의 arguments에 데이터를 담은 bundle을 넘겨줌
-        supportFragmentManager!!.beginTransaction()
-            .replace(R.id.fragmentContainerView, fragment)
-            .commit()
+        init()
+    }
+    private fun init() {
+        val bundle = Bundle().apply {
+            // Contact Model
+            item?.let {
+                putString(ContactDetailFragment.BUNDLE_IMAGE, it.Img?.toString())
+                putString(ContactDetailFragment.BUNDLE_NAME, it.name)
+                putString(ContactDetailFragment.BUNDLE_NUMBER, it.phonenumber)
+                putString(ContactDetailFragment.BUNDLE_EMAIL, it.email)
+                putString(ContactDetailFragment.BUNDLE_BIRTH, it.birth)
+                putString(ContactDetailFragment.BUNDLE_NICKNAME, it.nickname)
+            }
 
+            // position
+            if (position != -1) {
+                putInt(ContactDetailFragment.BUNDLE_POSITION, position)
+            }
+        }
+
+        // fragment 이동
+        getDetailFragment().arguments = bundle
+        supportFragmentManager.beginTransaction()
+            .replace(com.example.contact_nb12.R.id.fragmentContainerView, getDetailFragment())
+            .addToBackStack(null)
+            .commit()
     }
 
-
+    fun getDetailFragment() : ContactDetailFragment = ContactDetailFragment.instance
 }

@@ -1,10 +1,11 @@
 package com.example.contact_nb12.models
 
+import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 
 data class Contact(
-    val Img: Int,
+    val Img: Uri?,
     val name: String,
     val phonenumber: String,
     val email: String,
@@ -14,7 +15,7 @@ data class Contact(
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
-        parcel.readInt(),
+        parcel.readParcelable(Uri::class.java.classLoader),
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -24,7 +25,7 @@ data class Contact(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(Img)
+        parcel.writeParcelable(Img, flags)
         parcel.writeString(name)
         parcel.writeString(phonenumber)
         parcel.writeString(email)
