@@ -7,7 +7,7 @@
 ---
 
 **[최종 구현 단계]** 
-☑️TabLayout 와 ViewPager 
+- ☑️TabLayout 와 ViewPager 
 - [x]연락처 리스트 (ContactListFragment) 
 - [x]연락처 추가 (AddContactDialog or AddContactDialogFragment)
 - [x]상세 정보 (ContactDetailFragment)
