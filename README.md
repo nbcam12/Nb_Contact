@@ -6,6 +6,16 @@
 
 ---
 
+**[최종 구현 단계]** 
+[]TabLayout 와 ViewPager 
+[]연락처 리스트 (ContactListFragment) 
+[]연락처 추가 (AddContactDialog or AddContactDialogFragment)
+[]상세 정보 (ContactDetailFragment)
+[]마이 페이지 (MyPageFragment)
+
+
+
+
 ### 1.연락처 프로젝트(앱사진)
 ![스크린샷 2023-09-11 오전 9 50 30](https://github.com/nbcam12/Nb_Contact/assets/106301222/fd1e4c17-5a6f-4859-adb8-0985c031615e)
 
