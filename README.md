@@ -7,11 +7,11 @@
 ---
 
 **[최종 구현 단계]** 
-[]TabLayout 와 ViewPager 
-[]연락처 리스트 (ContactListFragment) 
-[]연락처 추가 (AddContactDialog or AddContactDialogFragment)
-[]상세 정보 (ContactDetailFragment)
-[]마이 페이지 (MyPageFragment)
+- [X]TabLayout 와 ViewPager 
+- [X]연락처 리스트 (ContactListFragment) 
+- [X]연락처 추가 (AddContactDialog or AddContactDialogFragment)
+- [X]상세 정보 (ContactDetailFragment)
+- [X]마이 페이지 (MyPageFragment)
 
 
 
